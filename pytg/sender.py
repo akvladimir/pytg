@@ -97,10 +97,11 @@ functions["user_info"]			= ("user_info", [args.User("user")], res.something, Non
 functions["load_user_photo"]	= ("load_user_photo", [args.User("user")], res.something, 120.0, "Downloads file to downloads dirs. Prints file name after download end")
 
 #contacts
-functions["contact_add"]		= ("add_contact", [args.UnicodeString("phone"), args.UnicodeString("first_name"), args.UnicodeString("last_name")], res.anything, None, "Tries to add user to contact list")
+functions["contact_add"]		= ("add_contact", [args.UnicodeString("phone")], res.anything, 120.0, "Tries to add user to contact list")
 functions["contact_add_by_card"]= ("import_card", [args.UnicodeString("card")], res.success_fail, None, "Gets user by card and prints it name. You can then send messages to him as usual #todo: add args type")
 functions["contact_rename"]		= ("rename_contact", [args.User("user"), args.UnicodeString("first_name"), args.UnicodeString("last_name")], res.something, None, "Renames contact #returns the new name")
 functions["contact_delete"]		= ("del_contact", [args.User("user")], res.success_fail, None, "Deletes contact from contact list")
+functions["contacts_delete"]    = ("del_contacts", [args.UnicodeString("ids")], res.anything, 1200, "Deletes contacts from contact list")
 functions["contacts_list"]		= ("contact_list", [], res.anything, None, "Prints contact list")
 functions["contacts_search"]	= ("contact_search", [args.UnicodeString("user_name"), args.NonNegativeNumber("limit", optional=True)], res.success_fail, None, "Searches contacts by username")
 
