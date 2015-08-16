@@ -3,9 +3,6 @@ __author__ = 'luckydonald'
 
 import atexit
 import logging
-
-import os, signal
-
 from time import sleep
 
 from .exceptions import NoResponse, IllegalResponseException
@@ -23,11 +20,10 @@ class Telegram(object):
     Also is able to start the CLI, and stop it respectivly.
     """
 
-    def __init__(self, host="127.0.0.1", port=4458, telegram=None, pubkey_file=None, custom_cli_args=None, without_quit=False):
+    def __init__(self, host="127.0.0.1", port=4458, telegram=None, pubkey_file=None, custom_cli_args=None):
         from .sender import Sender
         from .receiver import Receiver
 
-        self.without_quit = without_quit
         self._proc = None
         if telegram and pubkey_file:
             if host not in ["127.0.0.1", "localhost", "", None]:
@@ -125,11 +121,7 @@ class Telegram(object):
                 # end if-else: self.sender._do_quit
             if self._check_stopped(): return self._proc.returncode
             #has not terminated yet.
-            if not self.without_quit:
-                self._proc.communicate('quit\n')  # report this error in the bugtracker!
-            else:
-                os.kill(self._proc.pid, signal.SIGINT)
-
+            self._proc.communicate('quit\n')  # report this error in the bugtracker!
             if self._check_stopped(): return self._proc.returncode
             try:
                 self._proc.terminate()
