@@ -3,6 +3,9 @@ __author__ = 'luckydonald'
 
 import atexit
 import logging
+
+import os, signal
+
 from time import sleep
 
 from .exceptions import NoResponse, IllegalResponseException
@@ -124,6 +127,9 @@ class Telegram(object):
             #has not terminated yet.
             if not self.without_quit:
                 self._proc.communicate('quit\n')  # report this error in the bugtracker!
+            else:
+                os.kill(self._proc.pid, signal.SIGINT)
+
             if self._check_stopped(): return self._proc.returncode
             try:
                 self._proc.terminate()
